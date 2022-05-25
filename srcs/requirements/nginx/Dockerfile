@@ -1,7 +1,7 @@
-FROM alpine:3.14
+FROM debian:buster
 
-RUN apk update && apk add --no-cache nginx
+RUN apt-get update && apt-get -y install nginx
 
-COPY install.sh /tmp/install.sh
+COPY site.conf /tmp/site.conf
 
-ENTRYPOINT [ "sh", "/tmp/install.sh" ]
+ENTRYPOINT [ "bash" ]

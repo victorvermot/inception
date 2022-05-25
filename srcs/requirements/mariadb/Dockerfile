@@ -1,7 +1,9 @@
-FROM alpine:3.14
+FROM debian:buster
 
-RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
+RUN apt update && apt-get -y install mariadb-server
 
 COPY ./conf/config.sh /tmp/config.sh
+
+RUN bash /tmp/config.sh
 
 ENTRYPOINT [ "sh", "/tmp/config.sh" ]

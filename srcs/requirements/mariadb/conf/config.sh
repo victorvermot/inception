@@ -1,7 +1,15 @@
-echo $MYSQL_USER
-# mysql
+#!/bin/bash
 
-# CREATE DATABASE $DATABASE_NAME /*\!40100 DEFAULT CHARACTER SET utf8 */;
-# CREATE USER $MYSQL_USER@localhost IDENTIFIED BY '$MYSQL_PASSWORD';
-# GRANT ALL PRIVILEGES ON $DATABASE_NAME.* TO '$MYSQL_USER'@'localhost';
-# FLUSH PRIVILEGES;
+# echo $MYSQL_USER
+# echo "USE mysql;" | mysql -u root
+# systemctl start mysql
+service mysql start
+# service enable mysql
+mysql << EOF
+CREATE DATABASE IF NOT EXISTS wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER IF NOT EXISTS 'vvermot-'@'localhost' IDENTIFIED BY 'yoloswag';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'vvermot-'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+
+exec /usr/bin/mysql
