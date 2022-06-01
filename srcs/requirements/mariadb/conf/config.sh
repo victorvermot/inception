@@ -12,4 +12,4 @@ GRANT ALL PRIVILEGES ON wordpress.* TO 'vvermot-'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 
-exec /usr/bin/mysql
+exec /usr/bin/mysql --user=mysql

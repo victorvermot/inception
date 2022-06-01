@@ -4,35 +4,47 @@ services:
   nginx:
     build: requirements/nginx/
     container_name: nginx
+    restart: unless-stopped
     ports:
-      - "8000:8000"
       - "443:443"
+    env_file:
+      - .env
+    volumes:
+      -  wordpress:/home/vvermot-/data
+    networks:
+      - app-network
 
-
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   ports:
-  #     - "3306:3306"
+  wordpress:
+    build: ./requirements/wordpress
+    # read_only: true
+    env_file:
+      - .env
+    environment:
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - wordpress:/home/vvermot-/data
+    networks:
+      - app-network
 
   mariadb:
     build: requirements/mariadb/
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
     container_name: mariadb
     restart: unless-stopped
-    ports:
-      - "3306:3306"
+    # depends_on:  check the information
     env_file:
       - .env
-    # volumes:
-    #     - type: volumes
-    #     - target: /home/vvermot-/data
-      #   source: db-data
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - app-network
+    volumes:
+      -  db-data:/home/vvermot-/data
 volumes:
   db-data:
+  wordpress:
 networks:
   app-network:
-    driver: bridge

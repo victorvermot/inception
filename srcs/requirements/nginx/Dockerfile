@@ -2,6 +2,6 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install nginx
 
-COPY site.conf /tmp/site.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 ENTRYPOINT [ "bash" ]
