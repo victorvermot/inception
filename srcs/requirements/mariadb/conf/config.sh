@@ -5,11 +5,13 @@
 # systemctl start mysql
 service mysql start
 # service enable mysql
-mysql << EOF
+# ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root');
+mysql -u root << EOF
 CREATE DATABASE IF NOT EXISTS wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER IF NOT EXISTS 'vvermot-'@'localhost' IDENTIFIED BY 'yoloswag';
 GRANT ALL PRIVILEGES ON wordpress.* TO 'vvermot-'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 
-exec /usr/bin/mysql --user=mysql
+tail -f
+# exec /usr/bin/mysql #--user=vvermot-

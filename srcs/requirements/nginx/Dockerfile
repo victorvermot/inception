@@ -2,6 +2,8 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install nginx
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/nginx/conf.d/
 
-ENTRYPOINT [ "bash" ]
+# COPY test.sh /home/test.sh
+
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
