@@ -8,7 +8,7 @@ wp core download  --allow-root
 # echo "Creating the config file ..."
 # wp config create --dbname=mysql --dbuser=root --dbpass=nothing --allow-root # --dbhost='127.0.0.1'
 echo "Installing main wordpress"
-wp core install --url=localhost --title=Inception --admin_name=yoda --admin_password=bg --admin_email=you@example.com --allow-root
+wp core install --url=localhost:3306 --title=Inception --admin_name=yoda --admin_password=bg --admin_email=you@example.com --allow-root
 # wp config create --dbname=wordpress --dbuser=vvermot- --dbpass=yoloswag --dbhost=localhost --allow-root
 wp user create adrien adrien@example.com --role=contributor --allow-root
 echo "Installing theme"
@@ -26,6 +26,6 @@ wp plugin activate woocommerce --allow-root
 # mkdir uploads
 # chgrp web uploads/
 # chmod 775 uploads/
-
+# exec "php-fpm"
 /usr/bin/php7.3 -R -F
 # tail -f

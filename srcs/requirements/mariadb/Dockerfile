@@ -4,7 +4,7 @@ RUN apt update && apt-get upgrade -y && apt-get -y install mariadb-server
 
 COPY ./conf/config.sh /tmp/config.sh
 
-# EXPOSE 3306
+EXPOSE 3306
 
 # COPY ./conf/wp.sql ./wp.sql
 

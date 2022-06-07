@@ -58,3 +58,4 @@ volumes:
   wordpress:
 networks:
   app-network:
+    driver: bridge
