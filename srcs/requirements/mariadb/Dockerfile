@@ -6,7 +6,7 @@ COPY ./conf/config.sh /tmp/config.sh
 
 EXPOSE 3306
 
-# COPY ./conf/wp.sql ./wp.sql
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
 CMD ["bash", "/tmp/config.sh"]
 

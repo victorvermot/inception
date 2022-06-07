@@ -14,12 +14,12 @@ WORKDIR /var/www/html/wordpress
 
 COPY conf/conf.sh /tmp/conf.sh
 
-# COPY conf/www.conf /etc/php/7.3/fpm/
+COPY conf/www.conf /etc/php/7.3/fpm/
 # COPY conf/php-fpm.conf /etc/php/7.3/fpm/
 
 COPY conf/wp-config.php /var/www/html/wordpress/
 
-# EXPOSE 8080
-# COPY conf/wp-config.php /var/www/html/wordpress
+EXPOSE 9000
 
 ENTRYPOINT [ "bash", "/tmp/conf.sh" ]
+# ENTRYPOINT [ "bash" ]

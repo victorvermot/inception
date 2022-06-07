@@ -10,8 +10,8 @@ service mysql start
 # ALTER USER 'root'@'localhost' IDENTIFIED BY 'abc';
 mysql -u root << EOF
 CREATE DATABASE IF NOT EXISTS wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER IF NOT EXISTS 'vvermot'@'localhost' IDENTIFIED BY 'yoloswag';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'vvermot'@'localhost' IDENTIFIED BY 'yoloswag';
+CREATE USER IF NOT EXISTS 'vvermot'@'%' IDENTIFIED BY 'yoloswag';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'vvermot'@'%' IDENTIFIED BY 'yoloswag';
 FLUSH PRIVILEGES;
 EOF
 

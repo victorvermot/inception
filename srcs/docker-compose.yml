@@ -15,7 +15,7 @@ services:
     networks:
       - app-network
     volumes:
-      -  db-data:/home/vvermot/data
+      -  db-data:/home/vvermot/data0
     restart: always
 
   wordpress:
@@ -33,7 +33,7 @@ services:
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - wordpress:/home/vvermot/data
+      - wordpress:/home/vvermot/data1
     networks:
       - app-network
     restart: always
@@ -48,7 +48,7 @@ services:
     env_file:
       - .env
     volumes:
-      -  wordpress:/home/vvermot/data
+      -  wordpress:/home/vvermot/data2
     networks:
       - app-network
     restart: always
