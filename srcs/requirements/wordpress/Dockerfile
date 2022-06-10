@@ -19,7 +19,7 @@ COPY conf/www.conf /etc/php/7.3/fpm/
 
 COPY conf/wp-config.php /var/www/html/wordpress/
 
-EXPOSE 9000
+# EXPOSE 9000
 
 ENTRYPOINT [ "bash", "/tmp/conf.sh" ]
 # ENTRYPOINT [ "bash" ]

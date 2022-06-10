@@ -18,7 +18,7 @@ echo "Installing plugins"
 # wp plugin activate woocommerce --allow-root
 # fi
 
-tail -f
+# tail -f
 # php-fpm7.3 -R -F
 # tail -f
 # cd ../..
@@ -27,5 +27,5 @@ tail -f
 # chgrp web uploads/
 # chmod 775 uploads/
 # exec "php-fpm"
-/usr/bin/php7.3 -R -F
-# tail -f
+# /usr/bin/php7.3 -R -F
+tail -f
