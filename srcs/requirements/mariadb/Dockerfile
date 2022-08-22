@@ -1,13 +1,10 @@
 FROM debian:buster
 
-RUN apt update && apt-get upgrade -y && apt-get -y install mariadb-server
+RUN apt-get update && apt-get upgrade -y && apt-get -y install mariadb-server
 
 COPY ./conf/config.sh /tmp/config.sh
 
-EXPOSE 3306
-
+# ajouter le fichier 50-server.cnf manuel sinon il fait chier sa mere sur debian
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
-CMD ["bash", "/tmp/config.sh"]
-
-# ENTRYPOINT [ "bash", "/tmp/config.sh" ]
+ENTRYPOINT ["bash", "/tmp/config.sh"]

@@ -1,25 +1,16 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get -y install php7.3-fpm php7.3-common php7.3-mysql php wget
-
-WORKDIR /var/www/html
+# RUN apt-get update && apt-get -y install php7.3-mysql php7.3 php-fpm wget
+RUN apt-get update && apt-get -y install php7.3 php-mysqli php7.3-fpm wget mariadb-client
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
 RUN chmod +x wp-cli.phar
 
-RUN mv wp-cli.phar /usr/local/bin/wp
+RUN cp wp-cli.phar /usr/local/bin/wp
 
 WORKDIR /var/www/html/wordpress
 
-COPY conf/conf.sh /tmp/conf.sh
-
-COPY conf/www.conf /etc/php/7.3/fpm/
-# COPY conf/php-fpm.conf /etc/php/7.3/fpm/
-
-COPY conf/wp-config.php /var/www/html/wordpress/
-
-# EXPOSE 9000
+COPY ./conf/conf.sh /tmp/conf.sh
+COPY ./conf/www.conf /etc/php/7.3/www.conf
 
 ENTRYPOINT [ "bash", "/tmp/conf.sh" ]
-# ENTRYPOINT [ "bash" ]

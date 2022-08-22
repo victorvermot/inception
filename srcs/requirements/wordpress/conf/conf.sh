@@ -1,31 +1,22 @@
 #!/bin/bash
-# service php-fpm start
-# pwd
-sleep 3
-# if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 
-wp core download  --allow-root
-# echo "Creating the config file ..."
-# wp config create --dbname=mysql --dbuser=root --dbpass=nothing --allow-root # --dbhost='127.0.0.1'
-echo "Installing main wordpress"
-wp core install --url=localhost --title=Inception --admin_name=yoda --admin_password=bg --admin_email=you@example.com --allow-root
-# wp config create --dbname=wordpress --dbuser=vvermot- --dbpass=yoloswag --dbhost=localhost --allow-root
-wp user create adrienlebg adrien@example.com --role=contributor --allow-root
-echo "Installing theme"
-wp theme install twentynineteen --allow-root
-echo "Installing plugins"
-# wp plugin install woocommerce --allow-root
-# wp plugin activate woocommerce --allow-root
-# fi
+# Pour être sûr que la base de donnée mariadb soit bien démarrée.
+sleep 5
 
-# tail -f
-# php-fpm7.3 -R -F
-# tail -f
-# cd ../..
-# cd wp-content
-# mkdir uploads
-# chgrp web uploads/
-# chmod 775 uploads/
-# exec "php-fpm"
-# /usr/bin/php7.3 -R -F
-tail -f
+if [ ! -f "/var/www/html/index.html" ]; then
+
+    sed -i "s/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/" "/etc/php/7.3/fpm/pool.d/www.conf";
+    chown -R www-data:www-data /var/www/*;
+    chown -R 755 /var/www/*;
+    mkdir -p /run/php/;
+    touch /run/php/php7.3-fpm.pid;
+
+    wp core download  --allow-root
+    echo "Installing main wordpress"
+    wp config create --dbname=$WP_DATABASE_NAME --dbuser=$WP_DATABASE_USR --dbpass=$WP_DATABASE_PWD --dbhost=$MYSQL_HOST --dbcharset="utf8" --dbcollate="utf8_general_ci" --allow-root
+    wp core install --url=$DOMAIN_NAME/wordpress --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
+    wp user create $WP_USR $WP_EMAIL --role=author --user_pass=$WP_PWD --allow-root
+    wp theme install inspiro --activate --allow-root
+fi
+
+/usr/sbin/php-fpm7.3 -F -R

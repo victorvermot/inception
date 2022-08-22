@@ -1,5 +1,21 @@
-version: "3"
+version: '3'
 services:
+
+
+  nginx:
+    build: requirements/nginx/
+    container_name: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    # env_file:
+    #   - .env
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - app-network
+    restart: always
 
   mariadb:
     build: requirements/mariadb/
@@ -11,48 +27,41 @@ services:
     # depends_on:  check the information
     env_file:
       - .env
-    # command: '--default-authentication-plugin=mysql_native_password'
+    # environment:
+    #   MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+    #   WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+    #   WP_DATABASE_USR:  ${WP_DATABASE_USR}
+    #   WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
     networks:
       - app-network
     volumes:
       -  db-data:/var/lib/mysql
-      # -  ~/Desktop/volumes/db-data:/var/lib/mysql
     restart: always
 
   wordpress:
     build: ./requirements/wordpress
+    container_name: wordpress
     ports:
       - "9000:9000"
-      # - "3306:3306"
     depends_on:
       - mariadb
     env_file:
       - .env
-    environment:
-      - WORDPRESS_DB_HOST=localhost
-      - WORDPRESS_DB_USER=$MYSQL_USER
-      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=wordpress
+    # environment:
+    #   MYSQL_HOST:       ${MYSQL_HOST}
+    #   WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+    #   WP_DATABASE_USR:  ${WP_DATABASE_USR}
+    #   WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+    #   DOMAIN_NAME:      ${DOMAIN_NAME}
+    #   WP_TITLE:         ${WP_TITLE}
+    #   WP_ADMIN_USR:     ${WP_ADMIN_USR}
+    #   WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
+    #   WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
+    #   WP_USR:           ${WP_USR}
+    #   WP_PWD:           ${WP_PWD}
+    #   WP_EMAIL:         ${WP_EMAIL}
     volumes:
       -  wordpress:/var/www/html
-      # -  ~/Desktop/volumes/wordpress:/var/www/html
-    networks:
-      - app-network
-    restart: always
-
-  nginx:
-    build: requirements/nginx/
-    container_name: nginx
-    depends_on:
-      - wordpress
-    ports:
-      - "443:443"
-    env_file:
-      - .env
-    volumes:
-      # - nginx:/etc/nginx/conf.d
-      - wordpress:/var/www/html
-      # - ~/Desktop/volumes/wordpress:/var/www/html
     networks:
       - app-network
     restart: always
@@ -63,4 +72,3 @@ volumes:
   nginx:
 networks:
   app-network:
-    driver: bridge
